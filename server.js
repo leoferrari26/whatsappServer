@@ -78,15 +78,15 @@ app.get("/is-connected", (req, res) => {
 });
 
 app.post("/send-message", async (req, res) => {
-    const { number, message } = req.body;
+    const { number, message, pdfPath } = req.body;
     const formattedNumber = number.includes("@") ? number : `55${number}@c.us`;
 
     try {
-        const pdfPath = '/usr/local/var/www/ZapDirect/backend/message.pdf'; 
+        //const pdfPath = '/var/www/html/whatsappServer/message.pdf'; 
         const pdfBuffer = await fs.promises.readFile(pdfPath); 
         const media = new MessageMedia('application/pdf', pdfBuffer.toString('base64'), 'message.pdf');
         await client.sendMessage(formattedNumber, message);
-        await client.sendMessage(formattedNumber, "Aqui está seu PDF:", { media });
+        await client.sendMessage(formattedNumber, '', { media });
 
         res.json({ success: true, message: "Mensagem enviada com sucesso!" });
     } catch (error) {
@@ -96,8 +96,8 @@ app.post("/send-message", async (req, res) => {
 });
 
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+//app.listen(PORT, () => {
+//    console.log(`Servidor rodando em http://localhost:${PORT}`);
+//});
 
-server.listen(5003);
+server.listen(5002);
